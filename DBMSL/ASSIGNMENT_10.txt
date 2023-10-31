@@ -1,0 +1,152 @@
+Create following MongoDB collection and insert every variety of documents:
+teachers ( with fields like name, qualifications, deptno,experience, salary).Add other
+suitable fields to certain documents.
+Insert:
+db.createCollection("teacher")
+{ ok: 1 }
+db.teacher.insertMany([{"name":"Varsha","deptno":1,"experience":5,"salary":1234567,"qualificat
+io n":"Msc"},
+{"name":"Asmita","deptno":1,"experience":4,"salary":250000,"qualification":"Mtech"},
+{"name":"Sanika","deptno":2,"experience":7,"salary":1230000,"qualification":"ME"},{
+"name":"Varsha","deptno":3,"experience":3,"salary":100000,"qualification":"Bsc"}])
+{
+acknowledged: true,
+insertedIds: {
+"0": ObjectId("6530c66706f3164b38add2d8"),
+"1": ObjectId("6530c66706f3164b38add2d9"),
+"2": ObjectId("6530c66706f3164b38add2da"),
+"3": ObjectId("6530c66706f3164b38add2db")
+}
+}
+Find the information about all teachers:
+db.teacher.find().pretty()
+[
+{
+_id: ObjectId("6530c66706f3164b38add2d8"),
+name: "Varsha", deptno: 1, experience: 5,
+salary: 1234567, qualification: "Msc"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2d9"),
+name: "Asmita", deptno: 1, experience: 4,
+salary: 250000, qualification: "Mtech"
+},
+
+{
+_id: ObjectId("6530c66706f3164b38add2da"),
+name: "Sanika", deptno: 2, experience: 7,
+salary: 1230000, qualification: "ME"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2db"),
+name: "Nikita", deptno: 3, experience: 3,
+salary: 100000, qualification: "Bsc"
+}
+]
+
+Find the information about all teachers of department 1:
+db.teacher.find({"deptno":1})
+[
+{
+_id: ObjectId("6530c66706f3164b38add2d8"),
+name: "Varsha", deptno: 1, experience: 5,
+salary: 1234567, qualification: "Msc"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2d9"),
+name: "Asmita", deptno: 1, experience: 4,
+salary: 250000,
+qualification: "Mtech"
+}
+}
+
+Find the total Salary of all the teachers.
+db.teacher.aggregate([{$group:{_id:null,totalSalary:{$sum:"$salary"},},},]);
+[ { _id: null, totalSalary: 2814567 } ]
+
+Find Average salary of each department.
+db.teacher.aggregate([{$group:{_id:"$deptno",AverageDeptSalary:{$avg:"$salary"},},},]);
+[
+{ _id: 1, AverageDeptSalary: 742283.5 },
+
+{ _id: 2, AverageDeptSalary: 1230000 },
+{ _id: 3, AverageDeptSalary: 100000 }
+]
+Find the minimum salary in teachers:
+db.teacher.aggregate([{$group:{_id:null,minimumSalary:{$min:"$salary"}}}])
+[ { _id: null, minimumSalary: 100000 } ]
+Find the maximum salary in teachers:
+db.teacher.aggregate([{$group:{_id:null,maximumSalary:{$max:"$salary"}}}])
+[ { _id: null, maximumSalary: 1234567 } ]
+
+Find the first department in college:
+db.teacher.aggregate([{$group:{_id:null,FirstDepartment:{$first:"$deptno"}}}])
+[ { _id: null, FirstDepartment: 1 } ] Find last department in College:
+db.teacher.aggregate([{$group:{_id:null,LastDepartment:{$last:"$deptno"}}}])
+[ { _id: null, LastDepartment: 3 } ] Sort the collection by Name:
+db.teacher.aggregate([{$sort:{name:1}}])
+[
+{
+_id: ObjectId("6530c66706f3164b38add2d9"),
+name: "Asmita", deptno: 1, experience: 4,
+salary: 250000, qualification: "Mtech"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2d8"),
+name: "Nikita", deptno: 1, experience: 5,
+salary: 1234567, qualification: "Msc"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2da"),
+name: "Sanika", deptno: 2, experience: 7,
+salary: 1230000, qualification: "ME"
+},
+{
+
+_id: ObjectId("6530c66706f3164b38add2db"),
+name: "Varsha", deptno: 3, experience: 3,
+salary: 100000, qualification: "Bsc"
+}
+]
+Count of Teachers having Salary greater than 100040:
+db.teacher.aggregate([{$match:{salary:{$gt:100040}}},{$count:"Count of Salary Greater than
+100040"}])
+[ { "Count of Salary Greater than 100040": 3 } ]
+db.teacher.aggregate([{$limit:2}]);
+[
+{
+_id: ObjectId("6530c66706f3164b38add2d8"),
+name: "Nikita", deptno: 1, experience: 5,
+salary: 1234567, qualification: "Msc"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2d9"),
+name: "Asmita", deptno: 1, experience: 4,
+salary: 250000, qualification: "Mtech"
+}
+]
+Remove the experience field from document:
+db.teacher.aggregate([{$unset:["experience"]}])
+[
+{
+_id: ObjectId("6530c66706f3164b38add2d8"),
+name: "Nikita", deptno: 1, salary: 1234567,
+qualification: "Msc"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2d9"),
+name: "Asmita", deptno: 1, salary: 250000,
+qualification: "Mtech"
+},
+{
+
+_id: ObjectId("6530c66706f3164b38add2da"),
+name: "Sanika", deptno: 2, salary: 1230000,
+qualification: "ME"
+},
+{
+_id: ObjectId("6530c66706f3164b38add2db"),
+name: "Varsha", deptno: 3, salary: 100000,
+qualification: "Bsc"
+}
+]

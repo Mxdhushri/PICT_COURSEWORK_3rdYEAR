@@ -1,0 +1,832 @@
+NAME: MANALI PUSALKAR
+ROLL NO: 31264
+CLASS AND BATCH: TE II AND N2 BATCH
+SUBJECT:DBSL(LAB)
+ASSIGNMENT NO.2(STUDENT SCHEMA):
+SQL QUERIES
+A. DESIGN AND DEVELOP SQLDDL STATEMENTS WHICH DEMONSTRATE
+THE USE OF SQL OBJECTS SUCH AS TABLE, VIEW, INDEX, SEQUENCE,
+SYNONYM, DIFFERENT CONSTRAINTS ETC.
+B. WRITE AT LEAST 10 SQL QUERIES ON THE SUITABLE DATABASE
+APPLICATION USING SQL DML STATEMENTS
+*************************************************************************************
+*************************************************************************************
+******************************
+
+te@student-OptiPlex-3020:~$ mysql -h 10.10.13.47 -u te31264 -p
+Enter password:
+Welcome to the MySQL monitor. Commands end with ; or \g.
+Your MySQL connection id is 84
+Server version: 5.5.43-MariaDB MariaDB Server
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+mysql&gt; use te31264db;
+
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+mysql&gt; create table PlacementDrive(Drive_id int,Company
+varchar(20),Package int,Location varchar(20));
+Query OK, 0 rows affected (0.10 sec)
+mysql&gt; desc PlacementDrive;
++----------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Drive_id | int | YES | | NULL | |
+| Company | varchar(20) | YES | | NULL | |
+| Package | int | YES | | NULL | |
+| Location | varchar(20) | YES | | NULL | |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql&gt; drop table PlacementDrive;
+Query OK, 0 rows affected (0.02 sec)
+mysql&gt; create table PlacementDrive(Drive_id int,Company
+varchar(20),Package int,Location varchar(20),primary key(Drive_id));
+Query OK, 0 rows affected (0.08 sec)
+mysql&gt; desc PlacementDrive;
++----------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Drive_id | int | NO | PRI | NULL | |
+| Company | varchar(20) | YES | | NULL | |
+| Package | int | YES | | NULL | |
+| Location | varchar(20) | YES | | NULL | |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql&gt; create table Training(T_id int,T_Company varchar(20),T_Fee
+int,T_year varchar(20),primary key(T_id));
+Query OK, 0 rows affected (0.12 sec)
+mysql&gt; desc Training;
++-----------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| T_id | int | NO | PRI | NULL | |
+| T_Company | varchar(20) | YES | | NULL | |
+| T_Fee | int | YES | | NULL | |
+| T_year | varchar(20) | YES | | NULL | |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql&gt; create table Student(s_id int,Drive_id int,T_id int,s_name
+varchar(20),CGPA int,s_branch varchar(20),s_dob varchar(20),primary
+key(s_id),foreign key(Drive_id) references PlacementDrive(Drive_id) on
+delete cascade,foreign key(T_id) references Training(T_id) on delete
+cascade);
+Query OK, 0 rows affected (0.11 sec)
+mysql&gt; desc Student;
++----------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| s_id | int | NO | PRI | NULL | |
+| Drive_id | int | YES | MUL | NULL | |
+| T_id | int | YES | MUL | NULL | |
+| s_name | varchar(20) | YES | | NULL | |
+| CGPA | int | YES | | NULL | |
+| s_branch | varchar(20) | YES | | NULL | |
+| s_dob | varchar(20) | YES | | NULL | |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+mysql&gt; insert into PlacementDrive values(1,&#39;TCS&#39;,45000,&#39;Pune&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into PlacementDrive values(2,&#39;Infosys&#39;,50000,&#39;Mumbai&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into PlacementDrive values(3,&#39;Wipro&#39;,40000,&#39;Pune&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into PlacementDrive values(4,&#39;Persistent&#39;,48000,&#39;Chennai&#39;);
+Query OK, 1 row affected (0.01 sec)
+mysql&gt; insert into PlacementDrive values(5,&#39;Tech
+Mahindra&#39;,55000,&#39;Mumbai&#39;);
+Query OK, 1 row affected (0.05 sec)
+mysql&gt; insert into PlacementDrive values(6,&#39;L&amp;T
+Technology&#39;,60000,&#39;Bangalore&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into PlacementDrive values(7,&#39;HCL Tech&#39;,47000,&#39;Chennai&#39;);
+Query OK, 1 row affected (0.01 sec)
+mysql&gt; insert into PlacementDrive values(8,&#39;Mphasis&#39;,50000,&#39;Pune&#39;);
+Query OK, 1 row affected (0.07 sec)
+mysql&gt; insert into PlacementDrive values(9,&#39;LTIMindtree&#39;,30000,&#39;Pune&#39;);
+Query OK, 1 row affected (0.09 sec)
+mysql&gt; insert into PlacementDrive values(10,&#39;COFORGE&#39;,58000,&#39;Mumbai&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; select *from PlacementDrive;
+
++----------+----------------+---------+-----------+
+| Drive_id | Company | Package | Location |
++----------+----------------+---------+-----------+
+| 1 | TCS | 45000 | Pune |
+| 2 | Infosys | 50000 | Mumbai |
+| 3 | Wipro | 40000 | Pune |
+| 4 | Persistent | 48000 | Chennai |
+| 5 | Tech Mahindra | 55000 | Mumbai |
+| 6 | L&amp;T Technology | 60000 | Bangalore |
+| 7 | HCL Tech | 47000 | Chennai |
+| 8 | Mphasis | 50000 | Pune |
+| 9 | LTIMindtree | 30000 | Pune |
+| 10 | COFORGE | 58000 | Mumbai |
++----------+----------------+---------+-----------+
+10 rows in set (0.00 sec)
+mysql&gt; insert into Training values(1,&#39;NIIT&#39;,40000,&#39;2017&#39;);
+Query OK, 1 row affected (0.11 sec)
+mysql&gt; insert into Training values(2,&#39;IGNOU&#39;,45000,&#39;2018&#39;);
+Query OK, 1 row affected (0.05 sec)
+mysql&gt; insert into Training values(3,&#39;IGNOU&#39;,50000,&#39;2019&#39;);
+Query OK, 1 row affected (0.03 sec)
+mysql&gt; insert into Training values(4,&#39;Dexler Education&#39;,50000,&#39;2019&#39;);
+Query OK, 1 row affected (0.05 sec)
+mysql&gt; insert into Training values(5,&#39;Edukart&#39;,50000,&#39;2020&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into Training values(6,&#39;Simplilearn&#39;,55000,&#39;2021&#39;);
+Query OK, 1 row affected (0.01 sec)
+mysql&gt; insert into Training values(7,&#39;Meritnation&#39;,60000,&#39;2021&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into Training values(8,&#39;Educomp Solutions&#39;,35000,&#39;2018&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into Training values(9,&#39;Excelsoft&#39;,55000,&#39;2019&#39;);
+Query OK, 1 row affected (0.03 sec)
+mysql&gt; insert into Training values(10,&#39;Edulearn&#39;,48000,&#39;2020&#39;);
+Query OK, 1 row affected (0.07 sec)
+mysql&gt; update Training set T_Company=&#39;Centum Learning&#39; where T_id=3;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql&gt; select * from Training;
++------+-------------------+-------+--------+
+| T_id | T_Company | T_Fee | T_year |
++------+-------------------+-------+--------+
+
+| 1 | NIIT | 40000 | 2017 |
+| 2 | IGNOU | 45000 | 2018 |
+| 3 | Centum Learning | 50000 | 2019 |
+| 4 | Dexler Education | 50000 | 2019 |
+| 5 | Edukart | 50000 | 2020 |
+| 6 | Simplilearn | 55000 | 2021 |
+| 7 | Meritnation | 60000 | 2021 |
+| 8 | Educomp Solutions | 35000 | 2018 |
+| 9 | Excelsoft | 55000 | 2019 |
+| 10 | Edulearn | 48000 | 2020 |
++------+-------------------+-------+--------+
+10 rows in set (0.00 sec)
+mysql&gt; select * from PlacementDrive;
++----------+----------------+---------+-----------+
+| Drive_id | Company | Package | Location |
++----------+----------------+---------+-----------+
+| 1 | TCS | 45000 | Pune |
+| 2 | Infosys | 50000 | Mumbai |
+| 3 | Wipro | 40000 | Pune |
+| 4 | Persistent | 48000 | Chennai |
+| 5 | Tech Mahindra | 55000 | Mumbai |
+| 6 | L&amp;T Technology | 60000 | Bangalore |
+| 7 | HCL Tech | 47000 | Chennai |
+| 8 | Mphasis | 50000 | Pune |
+| 9 | LTIMindtree | 30000 | Pune |
+| 10 | COFORGE | 58000 | Mumbai |
++----------+----------------+---------+-----------+
+10 rows in set (0.40 sec)
+mysql&gt; select * from Training;
++------+-------------------+-------+--------+
+| T_id | T_Company | T_Fee | T_year |
++------+-------------------+-------+--------+
+| 1 | NIIT | 40000 | 2017 |
+| 2 | IGNOU | 45000 | 2018 |
+| 3 | Centum Learning | 50000 | 2019 |
+| 4 | Dexler Education | 50000 | 2019 |
+| 5 | Edukart | 50000 | 2020 |
+| 6 | Simplilearn | 55000 | 2021 |
+| 7 | Meritnation | 60000 | 2021 |
+| 8 | Educomp Solutions | 35000 | 2018 |
+| 9 | Excelsoft | 55000 | 2019 |
+| 10 | Edulearn | 48000 | 2020 |
++------+-------------------+-------+--------+
+10 rows in set (0.00 sec)
+mysql&gt; select * from student;
+Empty set (0.94 sec)
+mysql&gt; select * from Student;
+Empty set (0.00 sec)
+mysql&gt; desc Student;
+
++----------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| s_id | int | NO | PRI | NULL | |
+| Drive_id | int | YES | MUL | NULL | |
+| T_id | int | YES | MUL | NULL | |
+| s_name | varchar(20) | YES | | NULL | |
+| CGPA | int | YES | | NULL | |
+| s_branch | varchar(20) | YES | | NULL | |
+| s_dob | varchar(20) | YES | | NULL | |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.48 sec)
+Query1:Insertion of atleast 10 records in the Student
+table
+**************************************************************************
+**************************************************************************
+***********************
+mysql&gt; insert into Student values(1,1,2,&#39;Shruti&#39;,8.7,&#39;Comp&#39;,&#39;15/5/2003&#39;);
+Query OK, 1 row affected (0.29 sec)
+mysql&gt; insert into Student values(2,1,3,&#39;Swati&#39;,7.5,&#39;Comp&#39;,&#39;13/4/2003&#39;);
+Query OK, 1 row affected (0.09 sec)
+mysql&gt; insert into Student values(3,2,3,&#39;Neha&#39;,9,&#39;IT&#39;,&#39;18/6/2003&#39;);
+Query OK, 1 row affected (0.09 sec)
+mysql&gt; insert into Student values(4,3,4,&#39;Megha&#39;,8,&#39;IT&#39;,&#39;1/6/2002&#39;);
+Query OK, 1 row affected (0.05 sec)
+mysql&gt; insert into Student values(5,2,5,&#39;Roshni&#39;,8,&#39;Comp&#39;,&#39;11/3/2002&#39;);
+Query OK, 1 row affected (0.18 sec)
+mysql&gt; insert into Student values(6,3,7,&#39;Riya&#39;,6,&#39;Comp&#39;,&#39;12/3/2002&#39;);
+Query OK, 1 row affected (0.10 sec)
+mysql&gt; insert into Student values(7,4,9,&#39;Shravani&#39;,7,&#39;IT&#39;,&#39;8/3/2002&#39;);
+Query OK, 1 row affected (0.10 sec)
+mysql&gt; insert into Student values(8,5,7,&#39;Sarika&#39;,7,&#39;Comp&#39;,&#39;10/3/2002&#39;);
+Query OK, 1 row affected (0.04 sec)
+mysql&gt; insert into Student values(9,6,8,&#39;Sneha&#39;,8,&#39;Comp&#39;,&#39;10/9/2003&#39;);
+Query OK, 1 row affected (0.12 sec)
+mysql&gt; insert into Student values(10,6,2,&#39;Aastha&#39;,7,&#39;Comp&#39;,&#39;14/9/2003&#39;);
+Query OK, 1 row affected (0.08 sec)
+mysql&gt; select * from Student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 6 | 3 | 7 | Riya | 6 | Comp | 12/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+10 rows in set (0.00 sec)
+mysql&gt; update Student set s_name=&#39;Divya&#39; where s_id=6;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql&gt; select * from Student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 6 | 3 | 7 | Divya | 6 | Comp | 12/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+
+mysql&gt; show tables;
++--------------------+
+| Tables_in_manalidb |
++--------------------+
+| placementdrive |
+| student |
+| training |
++--------------------+
+3 rows in set (1.46 sec)
+mysql&gt; select *from placementdrive;
++----------+----------------+---------+-----------+
+| Drive_id | Company | Package | Location |
++----------+----------------+---------+-----------+
+| 1 | TCS | 45000 | Pune |
+| 2 | Infosys | 50000 | Mumbai |
+| 3 | Wipro | 40000 | Pune |
+| 4 | Persistent | 48000 | Chennai |
+
+| 5 | Tech Mahindra | 55000 | Mumbai |
+| 6 | L&amp;T Technology | 60000 | Bangalore |
+| 7 | HCL Tech | 47000 | Chennai |
+| 8 | Mphasis | 50000 | Pune |
+| 9 | LTIMindtree | 30000 | Pune |
+| 10 | COFORGE | 58000 | Mumbai |
++----------+----------------+---------+-----------+
+10 rows in set (0.06 sec)
+mysql&gt; select *from training;
++------+-------------------+-------+--------+
+| T_id | T_Company | T_Fee | T_year |
++------+-------------------+-------+--------+
+| 1 | NIIT | 40000 | 2017 |
+| 2 | IGNOU | 45000 | 2018 |
+| 3 | Centum Learning | 50000 | 2019 |
+| 4 | Dexler Education | 50000 | 2019 |
+| 5 | Edukart | 50000 | 2020 |
+| 6 | Simplilearn | 55000 | 2021 |
+| 7 | Meritnation | 60000 | 2021 |
+| 8 | Educomp Solutions | 35000 | 2018 |
+| 9 | Excelsoft | 55000 | 2019 |
+| 10 | Edulearn | 48000 | 2020 |
++------+-------------------+-------+--------+
+10 rows in set (0.01 sec)
+mysql&gt; select * from student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 6 | 3 | 7 | Divya | 6 | Comp | 12/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+10 rows in set (0.00 sec)
+mysql&gt; select from student where s_branch=&#39;Comp&#39; or s_branch=&#39;It&#39; and
+where s_name like &#39;a%&#39; or s_name like &#39;d%&#39;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+near &#39;from student where s_branch=&#39;Comp&#39; or s_branch=&#39;It&#39; and where s_name
+like &#39;a%&#39; o&#39; at line 1
+mysql&gt; select from student where (s_branch=&#39;Comp&#39; or s_branch=&#39;It&#39;) and
+(where s_name like &#39;a%&#39; or s_name like &#39;d%&#39;);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+
+near &#39;from student where (s_branch=&#39;Comp&#39; or s_branch=&#39;It&#39;) and (where
+s_name like &#39;a%&#39; at line 1
+mysql&gt; select from student where (s_branch=&#39;Comp&#39; (where s_name like
+&#39;a%&#39;or s_name like &#39;d%&#39;) or s_branch=&#39;It&#39;(where s_name like &#39;a%&#39; or s_name
+like &#39;d%&#39;));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+near &#39;from student where (s_branch=&#39;Comp&#39; (where s_name like &#39;a%&#39;or s_name
+like &#39;d%&#39;) &#39; at line 1
+
+Query2: Display all students details with branch
+‘Computer ‘and ‘It’ and student name
+starting with ‘a’ or ‘d’.
+**************************************************************************
+**************************************************************************
+**************************
+mysql&gt; select * from student where(s_branch=&#39;Comp&#39; or
+s_branch=&#39;It&#39;)and(s_name like &#39;a%&#39; or s_name like &#39;d%&#39;);
++------+----------+------+--------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+--------+------+----------+-----------+
+| 6 | 3 | 7 | Divya | 6 | Comp | 12/3/2002 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+--------+------+----------+-----------+
+2 rows in set (0.05 sec)
+mysql&gt; update s_branch=&#39;It&#39; from student where s_name=&#39;Divya&#39;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+near &#39;=&#39;It&#39; from student where s_name=&#39;Divya&#39;&#39; at line 1
+mysql&gt; update student set s_branch=&#39;It&#39; where s_name=&#39;Divya&#39;;
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql&gt; select* from student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 6 | 3 | 7 | Divya | 6 | It | 12/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+10 rows in set (0.00 sec)
+
+mysql&gt; update student set s_branch=&#39;IT&#39; where s_name=&#39;Divya&#39;;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql&gt; select* from student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 6 | 3 | 7 | Divya | 6 | IT | 12/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+10 rows in set (0.00 sec)
+mysql&gt; select * from student where(s_branch=&#39;Comp&#39; or s_branch=&#39;IT&#39;) and
+(s_name like &#39;a%&#39; or s_name like &#39;d%&#39;);
++------+----------+------+--------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+--------+------+----------+-----------+
+| 6 | 3 | 7 | Divya | 6 | IT | 12/3/2002 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+--------+------+----------+-----------+
+2 rows in set (0.00 sec)
+**************************************************************************
+**************************************************************************
+********************
+Query3:List the number of different companies.(use of
+distinct)
+**************************************************************************
+**************************************************************************
+*******************
+mysql&gt; select count(distinct Company) as number from placementdrive;
++--------+
+| number |
++--------+
+| 10 |
++--------+
+1 row in set (0.09)
+
+mysql&gt; update training T_Fee=T_Fee+(0.15*T_Fee) where T_year=2019;
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+near &#39;=T_Fee+(0.15*T_Fee) where T_year=2019&#39; at line 1
+mysql&gt; desc training;
++-----------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| T_id | int | NO | PRI | NULL | |
+| T_Company | varchar(20) | YES | | NULL | |
+| T_Fee | int | YES | | NULL | |
+| T_year | varchar(20) | YES | | NULL | |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.12 sec)
+mysql&gt; update training T_Fee=T_Fee+(0.15*T_Fee) where T_year=&#39;2019&#39;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+near &#39;=T_Fee+(0.15*T_Fee) where T_year=&#39;2019&#39;&#39; at line 1
+**************************************************************************
+**************************************************************************
+**************************
+Query4: Give 15% increase in fee of the Training whose
+joining year is 2019.
+**************************************************************************
+**************************************************************************
+**************************
+mysql&gt; update training set T_Fee=T_Fee+(0.15*T_Fee) where T_year=&#39;2019&#39;;
+Query OK, 3 rows affected (0.07 sec)
+Rows matched: 3 Changed: 3 Warnings: 0
+mysql&gt; select * from training;
++------+-------------------+-------+--------+
+| T_id | T_Company | T_Fee | T_year |
++------+-------------------+-------+--------+
+| 1 | NIIT | 40000 | 2017 |
+| 2 | IGNOU | 45000 | 2018 |
+| 3 | Centum Learning | 57500 | 2019 |
+| 4 | Dexler Education | 57500 | 2019 |
+| 5 | Edukart | 50000 | 2020 |
+| 6 | Simplilearn | 55000 | 2021 |
+| 7 | Meritnation | 60000 | 2021 |
+| 8 | Educomp Solutions | 35000 | 2018 |
+| 9 | Excelsoft | 63250 | 2019 |
+| 10 | Edulearn | 48000 | 2020 |
++------+-------------------+-------+--------+
+10 rows in set (0.00 sec)
+
+**************************************************************************
+**************************************************************************
+**************************
+Query5: Delete Student details having CGPA score less
+than 7.
+**************************************************************************
+**************************************************************************
+**************************
+mysql&gt; delete from student where CGPA&lt;7;
+Query OK, 1 row affected (0.08 sec)
+mysql&gt; select * from student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+9 rows in set (0.00 sec)
+
+**************************************************************************
+**************************************************************************
+*************************
+Query6:Find the names of companies belonging to pune or
+Mumbai
+**************************************************************************
+**************************************************************************
+*************************
+mysql&gt; select Company from placementdrive where(Location=&#39;Pune&#39; or
+Location=&#39;Mumbai&#39;);
++---------------+
+| Company |
++---------------+
+| TCS |
+| Infosys |
+| Wipro |
+| Tech Mahindra |
+| Mphasis |
+| LTIMindtree |
+| COFORGE |
+
++---------------+
+7 rows in set (0.00 sec)
+mysql&gt; select * from placementdrive;
++----------+----------------+---------+-----------+
+| Drive_id | Company | Package | Location |
++----------+----------------+---------+-----------+
+| 1 | TCS | 45000 | Pune |
+| 2 | Infosys | 50000 | Mumbai |
+| 3 | Wipro | 40000 | Pune |
+| 4 | Persistent | 48000 | Chennai |
+| 5 | Tech Mahindra | 55000 | Mumbai |
+| 6 | L&amp;T Technology | 60000 | Bangalore |
+| 7 | HCL Tech | 47000 | Chennai |
+| 8 | Mphasis | 50000 | Pune |
+| 9 | LTIMindtree | 30000 | Pune |
+| 10 | COFORGE | 58000 | Mumbai |
++----------+----------------+---------+-----------+
+10 rows in set (0.00 sec)
+mysql&gt; select * from student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+9 rows in set (0.00 sec)
+**************************************************************************
+**************************************************************************
+***********************
+Query7:Find the student name who joined training in 1-
+1-2019 as well as in 1-1-2021.
+**************************************************************************
+**************************************************************************
+***********************
+mysql&gt; select s_name from student where t_id in(select t_id from training
+where t_year=&#39;2019&#39; or t_year=&#39;2021&#39;);
++----------+
+| s_name |
++----------+
+| Swati |
+| Neha |
+| Megha |
+| Sarika |
+
+| Shravani |
++----------+
+5 rows in set (0.05 sec)
+mysql&gt; select * from training;
++------+-------------------+-------+--------+
+| T_id | T_Company | T_Fee | T_year |
++------+-------------------+-------+--------+
+| 1 | NIIT | 40000 | 2017 |
+| 2 | IGNOU | 45000 | 2018 |
+| 3 | Centum Learning | 57500 | 2019 |
+| 4 | Dexler Education | 57500 | 2019 |
+| 5 | Edukart | 50000 | 2020 |
+| 6 | Simplilearn | 55000 | 2021 |
+| 7 | Meritnation | 60000 | 2021 |
+| 8 | Educomp Solutions | 35000 | 2018 |
+| 9 | Excelsoft | 63250 | 2019 |
+| 10 | Edulearn | 48000 | 2020 |
++------+-------------------+-------+--------+
+10 rows in set (0.00 sec)
+mysql&gt; select * from student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+9 rows in set (0.00 sec)
+
+**************************************************************************
+**************************************************************************
+******************
+Query 8:Find the student name having maximum CGPA score
+and names of students
+having CGPA score between 7 to 9 .
+**************************************************************************
+**************************************************************************
+******************
+
+mysql&gt; select s_name from student where t_id in(select t_id from training
+where t_year=&#39;2019&#39; or t_year=&#39;2021&#39;);
++----------+
+| s_name |
++----------+
+| Swati |
+| Neha |
+| Megha |
+| Sarika |
+| Shravani |
++----------+
+5 rows in set (0.00 sec)
+mysql&gt; select * from student;
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+9 rows in set (0.00 sec)
+mysql&gt; select max(CGPA) from student;
++-----------+
+| max(CGPA) |
++-----------+
+| 9 |
++-----------+
+1 row in set (0.07 sec)
+mysql&gt; select CGPA from student where CGPA between 7 and 9;
++------+
+| CGPA |
++------+
+| 9 |
+| 8 |
+| 9 |
+| 8 |
+| 8 |
+| 7 |
+| 7 |
+| 8 |
+| 7 |
++------+
+9 rows in set (0.00 sec)
+mysql&gt; select * from student;
+
++------+----------+------+----------+------+----------+-----------+
+| s_id | Drive_id | T_id | s_name | CGPA | s_branch | s_dob |
++------+----------+------+----------+------+----------+-----------+
+| 1 | 1 | 2 | Shruti | 9 | Comp | 15/5/2003 |
+| 2 | 1 | 3 | Swati | 8 | Comp | 13/4/2003 |
+| 3 | 2 | 3 | Neha | 9 | IT | 18/6/2003 |
+| 4 | 3 | 4 | Megha | 8 | IT | 1/6/2002 |
+| 5 | 2 | 5 | Roshni | 8 | Comp | 11/3/2002 |
+| 7 | 4 | 9 | Shravani | 7 | IT | 8/3/2002 |
+| 8 | 5 | 7 | Sarika | 7 | Comp | 10/3/2002 |
+| 9 | 6 | 8 | Sneha | 8 | Comp | 10/9/2003 |
+| 10 | 6 | 2 | Aastha | 7 | Comp | 14/9/2003 |
++------+----------+------+----------+------+----------+-----------+
+9 rows in set (0.00 sec)
+
+**************************************************************************
+**************************************************************************
+************************
+Query 9:Display all Student name with T_id with
+decreasing order of Fees.
+**************************************************************************
+**************************************************************************
+************************
+mysql&gt; select s_name,T_id,(select T_Fee from training where
+T_id=student.T_id) as T_Fee from student order by T_Fee desc;_
++----------+------+-------+
+| s_name | T_id | T_Fee |
++----------+------+-------+
+| Shravani | 9 | 63250 |
+| Sarika | 7 | 60000 |
+| Swati | 3 | 57500 |
+| Neha | 3 | 57500 |
+| Megha | 4 | 57500 |
+| Roshni | 5 | 50000 |
+| Shruti | 2 | 45000 |
+| Aastha | 2 | 45000 |
+| Sneha | 8 | 35000 |
++----------+------+-------+
+9 rows in set (0.05 sec)
+-&gt; ;
+mysql&gt; select s_name,(select Company from placementdrive where
+drive_id=student.drive_id) as Company,(select Location from placementdrive
+where drive_id=student.drive_id) as Location,(select Package from
+
+placementdrive where drive_id=student.drive_id and (Package=&#39;30000&#39; or
+Package=&#39;40000&#39; or Package=&#39;50000&#39;)) as Package from student;
++----------+----------------+-----------+---------+
+| s_name | Company | Location | Package |
++----------+----------------+-----------+---------+
+| Shruti | TCS | Pune | NULL |
+| Swati | TCS | Pune | NULL |
+| Neha | Infosys | Mumbai | 50000 |
+| Megha | Wipro | Pune | 40000 |
+| Roshni | Infosys | Mumbai | 50000 |
+| Shravani | Persistent | Chennai | NULL |
+| Sarika | Tech Mahindra | Mumbai | NULL |
+| Sneha | L&amp;T Technology | Bangalore | NULL |
+| Aastha | L&amp;T Technology | Bangalore | NULL |
++----------+----------------+-----------+---------+
+9 rows in set (0.00 sec)
+mysql&gt; select * from placementdrive;
++----------+----------------+---------+-----------+
+| Drive_id | Company | Package | Location |
++----------+----------------+---------+-----------+
+| 1 | TCS | 45000 | Pune |
+| 2 | Infosys | 50000 | Mumbai |
+| 3 | Wipro | 40000 | Pune |
+| 4 | Persistent | 48000 | Chennai |
+| 5 | Tech Mahindra | 55000 | Mumbai |
+| 6 | L&amp;T Technology | 60000 | Bangalore |
+| 7 | HCL Tech | 47000 | Chennai |
+| 8 | Mphasis | 50000 | Pune |
+| 9 | LTIMindtree | 30000 | Pune |
+| 10 | COFORGE | 58000 | Mumbai |
++----------+----------------+---------+-----------+
+10 rows in set (0.00 sec)
+mysql&gt; select s_name,(select Company from placementdrive where
+drive_id=student.drive_id) as Company,(select Location from placementdrive
+where drive_id=student.drive_id) as Location,(select Package from
+placemntdrive where (drive_id=student_id and (Package=&#39;30000&#39; or
+Package&#39;40000&#39; or Package=&#39;50000&#39;) and(Package is not NULL))) as Package
+from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+near &#39;&#39;40000&#39; or Package=&#39;50000&#39;) and(Package is not NULL))) as Package
+from student&#39; at line 1
+mysql&gt; select s_name,(select Company from placementdrive where
+drive_id=student.drive_id) as Company,(select Location from placementdrive
+where drive_id=student.drive_id) as Location,(select Package from
+placemntdrive where (drive_id=student.drive_id and (Package=&#39;30000&#39; or
+Package&#39;40000&#39; or Package=&#39;50000&#39;) and(Package is not NULL))) as Package
+from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version for the right syntax to use
+near &#39;&#39;40000&#39; or Package=&#39;50000&#39;) and(Package is not NULL))) as Package
+from student&#39; at line 1
+
+mysql&gt; select s_name,(select Company from placementdrive where
+drive_id=student.drive_id) as Company,(select Location from placementdrive
+where drive_id=student.drive_id) as Location,(select Package from
+placemntdrive where (drive_id=student.drive_id and (Package=&#39;30000&#39; or
+Package=&#39;40000&#39; or Package=&#39;50000&#39;) and(Package is not NULL))) as Package
+from student;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+No connection. Trying to reconnect...
+Connection id: 10
+Current database: manalidb
+ERROR 1146 (42S02): Table &#39;manalidb.placemntdrive&#39; doesn&#39;t exist
+mysql&gt; select s_name,(select Company from placementdrive where
+drive_id=student.drive_id) as Company,(select Location from placementdrive
+where drive_id=student.drive_id) as Location,(select Package from
+placementdrive where (drive_id=student.drive_id and (Package=&#39;30000&#39; or
+Package=&#39;40000&#39; or Package=&#39;50000&#39;) and(Package is not NULL))) as Package
+from student;
++----------+----------------+-----------+---------+
+| s_name | Company | Location | Package |
++----------+----------------+-----------+---------+
+| Shruti | TCS | Pune | NULL |
+| Swati | TCS | Pune | NULL |
+| Neha | Infosys | Mumbai | 50000 |
+| Megha | Wipro | Pune | 40000 |
+| Roshni | Infosys | Mumbai | 50000 |
+| Shravani | Persistent | Chennai | NULL |
+| Sarika | Tech Mahindra | Mumbai | NULL |
+| Sneha | L&amp;T Technology | Bangalore | NULL |
+| Aastha | L&amp;T Technology | Bangalore | NULL |
++----------+----------------+-----------+---------+
+9 rows in set (0.23 sec)
+
+Query 10: Display PCompany name, S_name ,location and
+Package with Package 30K,
+40K and 50k
+**************************************************************************
+**************************************************************************
+*************************
+mysql&gt; select Package,Company,Location,s_name from placementdrive,student
+where (placementdrive.drive_id=student.drive_id and
+(placementdrive.Package=&#39;30000&#39; or placementdrive.Package=&#39;40000&#39; or
+placementdrive.Package=&#39;50000&#39;));
++---------+---------+----------+--------+
+| Package | Company | Location | s_name |
++---------+---------+----------+--------+
+| 50000 | Infosys | Mumbai | Neha |
+| 50000 | Infosys | Mumbai | Roshni |
+
+| 40000 | Wipro | Pune | Megha |
++---------+---------+----------+--------+
+3 rows in set (0.13 sec)
