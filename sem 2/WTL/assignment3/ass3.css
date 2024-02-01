@@ -1,0 +1,58 @@
+note {
+    color: white;
+    background-color: black;
+    width: 100%;
+}
+heading1{
+   color: gray;
+   font-size: 40px;
+   background-color: #E0AED0;
+
+}
+heading1, to, from, heading, body { 
+   display : block; 
+} 
+to { 
+   font-size : 25px; 
+   font-weight : bold; 
+} 
+note {
+   color: black;
+   background-color:#FFE5E5;
+   width: 100%;
+}
+
+heading1 {
+   color: gray;
+   font-size: 40px;
+   background-color: powderblue;
+   vertical-align: middle; /* Center vertically */
+}
+
+books {
+   display: table;
+   width: 100%;
+   margin-top: 20px;
+}
+
+note1 {
+   display: table-row;
+   border: 1px solid #ddd;
+   margin-bottom: 10px;
+   
+}
+
+to, from, heading, body {
+   display: table-cell;
+   padding: 10px;
+}
+
+to {
+   font-size: 25px;
+   font-weight: bold;
+}
+
+body {
+   color:#756AB6;
+}
+

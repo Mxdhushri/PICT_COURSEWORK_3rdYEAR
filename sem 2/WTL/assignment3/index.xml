@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE note SYSTEM "reminder.dtd"> 
+<?xml-stylesheet href ="ass3.css" type="text/css"?>
+<note>
+    <heading1>REMINDER AUDIT</heading1>
+<note1>
+  <to>To</to>
+  <from>harsh</from>
+  <heading>Reminder</heading>
+  <body>Don't forget me this weekend!</body>
+</note1>
+<note1>
+    <to>To</to>
+    <from>disha</from>
+    <heading>Assignment</heading>
+    <body>Complete WTL assignment</body>
+</note1>
+<note1>
+    <to>To</to>
+    <from>vartika</from>
+    <heading>book</heading>
+    <body>Tickets for aqua imagica</body>
+</note1>
+<note1>
+    <to>To</to>
+    <from>mom</from>
+    <heading>Shopping</heading>
+    <body>add tomatoes to the grocery list</body>
+</note1>
+</note>
