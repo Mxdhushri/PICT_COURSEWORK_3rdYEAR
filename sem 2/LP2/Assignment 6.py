@@ -1,7 +1,7 @@
-# and , or operations have been used , return type bool and lowercase,/n , shubham,arti github
+# and , or operations have been used , return type bool and lowercase,/n , shubham gv,arti github
 
 def ask_question(question):
-    response = input(question + ": ").lower().strip()[0]
+    response = input(question + ": ").lower()
     return response == "y"
 
 
