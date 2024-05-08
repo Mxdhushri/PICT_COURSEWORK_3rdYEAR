@@ -1,89 +1,106 @@
 #include <bits/stdc++.h>
 using namespace std;
-class Graph
-{
-public:
-    map<int, bool> visited;
-    map<int, list<int>> adj;
 
-    void addEdge(int, int);
+//const int N = 1e5 + 2;
+map<string,bool> vis ;//bool vis[N];
+map<string,vector<string>> adj; //vector<int> adj[N];
+queue<string> q;
 
-    void DFS(int);
-    void BFS(int v, queue<int> &q);
-};
-void Graph::addEdge(int v, int w)
+
+void setVisitedtoZero()
 {
-    adj[v].push_back(w);
-    adj[w].push_back(v);
+    for(auto pair:adj) //adj=N
+    {
+        vis[pair.first] = false; //string = pair.first, so false value is stored in vis(initialize)
+    }
 }
-void Graph::BFS(int v, queue<int> &q)
+
+void DFS(string node)
 {
-    if (q.empty())
+    vis[node] = true;
+    cout<<node<<" ";
+
+    for (auto it:adj[node])
+    {
+        if(!vis[it])
+        {
+            DFS(it); // auto directly returns value so no *it req
+        }
+    }
+}
+
+void BFS()
+{
+    if(q.empty())
         return;
 
-    v = q.front();
+    string node = q.front();
     q.pop();
+    cout<<node<<" ";
 
-    if (!visited[v])
+    for(auto it:adj[node])
     {
-        visited[v] = true;
-        cout << v << ' ';
-
-        for (int i : adj[v])
+        if(!vis[it])
         {
-            if (!visited[i])
-            {
-                q.push(i);
-            }
+            vis[it] = true;
+            q.push(it);
         }
     }
 
-    BFS(v, q);
+    BFS();
 }
-void Graph::DFS(int v)
-{
-    visited[v] = true;
-    cout << v << ' ';
-    for (int i : adj[v])
-        if (!visited[i])
-            DFS(i);
-    return;
-}
+
 int main()
 {
-    Graph g;
-    g.addEdge(0, 1);
-    g.addEdge(1, 3);
-    g.addEdge(1, 2);
-    g.addEdge(2, 4);
-    while(true)
+
+    int n,m;
+    cout<<"Enter the number of routes[edges] and cities[vetices] of the graph:\n";
+    cin>>n>>m;
+
+    string x,y;
+    cout<<"Enter starting and ending cities[vertices] of the edges:\n";
+    
+    for(int i=0; i<n; i++)
     {
-        cout<<"1. DFS"<<endl;
-        cout<<"2. BFS"<<endl;
-        cout<<"3. Exit"<<endl;
-        int choice;
-        cin>>choice;
-        if(choice==1)
-        {
-            cout<<"Following is Depth First Traversal: "<<endl;
-            g.DFS(2);
-            cout<<endl;
-        }
-        else if(choice==2)
-        {
-            cout<<"Following is Breadth First Traversal: "<<endl;
-            queue<int> q;
-            q.push(1);
-            g.BFS(1, q);
-            cout<<endl;
-        }
-        else if(choice==3)
-        {
-            cout<<"Program exited successfully."<<endl;
-            break;
-        }
-        else
-        cout<<"Invalid choice. Please enter a valid choice from 1 to 3."<<endl;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
     }
+
+    int choice;
+
+    do
+    {
+        cout<<"\n----MENU----\n";
+        cout<<"1. DFS\n2. BFS\n3. Exit\n";
+        cout<<"Enter the choice: ";
+
+        cin>>choice;
+        string node;
+        switch(choice)
+        {
+            case 1:
+                    cout<<"Enter the city to start with:\n";
+                    cin>>node;
+                    cout<<"\nDFS:\n";
+                    setVisitedtoZero();
+                    DFS(node);
+                    break;
+
+
+            case 2: 
+                    cout<<"Enter the city to start with:\n";
+                    cin>>node;
+                    q.push(node);
+                    cout<<"\nBFS:\n";
+                    setVisitedtoZero();
+                    vis[node] = true;
+                    BFS();
+                    break;
+ 
+        }
+
+    } while(choice!=3);
+
     return 0;
 }

@@ -1,76 +1,83 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include<bits/stdc++.h>
 using namespace std;
-
-struct Edge {
-  int src, dest, weight;
-};
-
-bool compareEdges(const Edge& e1, const Edge& e2) {
-  return e1.weight < e2.weight;
-}
-
-int findParent(vector<int>& parent, int u) {
-  if (parent[u] != u) {
-    parent[u] = findParent(parent, parent[u]);
-  }
-  return parent[u];
-}
-
-void unionSets(vector<int>& parent, vector<int>& rank, int x, int y) {
-  int xroot = findParent(parent, x);
-  int yroot = findParent(parent, y);
-
-  if (rank[xroot] < rank[yroot]) {
-    parent[xroot] = yroot;
-  } else if (rank[xroot] > rank[yroot]) {
-    parent[yroot] = xroot;
-  } else {
-    parent[yroot] = xroot;
-    rank[xroot]++;
-  }
-}
-
-vector<Edge> KruskalsMST(vector<Edge>& edges, int V) {
-  vector<Edge> result; // Stores edges in the MST
-  vector<int> parent(V); // Stores parent of each vertex
-  vector<int> rank(V, 0); // Stores rank of each vertex for efficient union-find
-
-  sort(edges.begin(), edges.end(), compareEdges);
-  for (int i = 0; i < V; i++) {
-    parent[i] = i;
-  }
-
-  int i = 0; // Index used to pick next edge
-  while (result.size() < V - 1) {
-    Edge next_edge = edges[i++];
-
-    int x = findParent(parent, next_edge.src);
-    int y = findParent(parent, next_edge.dest);
-
-    if (x != y) {
-      result.push_back(next_edge);
-      unionSets(parent, rank, x, y);
+class DSU
+{
+    public:
+    vector<int>size,parent;
+    DSU(int n) //constructor
+    {
+        size.resize(n+1,1); // intially sare nodes ka size "1" hota hai [SIZE intialize]
+        parent.resize(n+1);  
+        for(int i=0;i<=n;i++) // we traverse n only obv- no of nodes
+        {
+            parent[i]=i; //[PARENT intitialize]
+        }
     }
-  }
+    //Path Compression
+    int findUPar(int node)
+    {
+        if(node==parent[node])
+        return node;
+        return parent[node]=findUPar(parent[node]);
+    }
 
-  return result;
-}
+    void unionBySize(int u, int v)
+    {
+        int ulp_u=findUPar(u);
+        int ulp_v=findUPar(v);
+        if(ulp_u==ulp_v)
+        return;
 
-int main() {
-  vector<Edge> edges = {
-    {0, 1, 4}, {0, 2, 3}, {1, 2, 1}, {1, 3, 2}, {2, 3, 4}, {4, 5, 3}, {5, 6, 1}
-  };
-  int V = 7; 
+        if(size[ulp_u]<size[ulp_v])
+        {
+            parent[ulp_u]=ulp_v;
+            size[ulp_v]+=size[ulp_u];
+        }
+        else
+        {
+            parent[ulp_v]=ulp_u;
+            size[ulp_u]+=size[ulp_v];
+        }
+    }
 
-  vector<Edge> mst = KruskalsMST(edges, V);
-
-  cout << "Edges in the constructed MST: \n";
-  for (Edge edge : mst) {
-    cout << edge.src << " -- " << edge.dest << " == " << edge.weight << endl;
-  }
-
-  return 0;
+};
+int main()
+{
+    int v,e;
+    cout<<"Enter number of vertices"<<endl;
+    cout<<"Enter number of edges"<<endl;
+    cin>>v>>e;
+    vector<pair<int,pair<int,int>>>edges;
+    for(int i=0;i<e;i++)
+    {
+        cout<<"Edge"<<endl;
+        int st,en,wt;
+        cin>>st>>en>>wt;
+        edges.push_back({wt,{st,en}});
+    }
+    sort(edges.begin(),edges.end()); // sort edges according to weight
+    vector<pair<int,pair<int,int>>>ans;
+    int minwt=0;
+    DSU d(v); //object d of class DSU[disjoint set union]
+    for(auto e:edges)
+    {
+        int n1=e.second.first;
+        int n2=e.second.second;
+        int wt=e.first;
+        int par_n1=d.findUPar(n1);
+        int par_n2=d.findUPar(n2);
+        if(par_n1!=par_n2)
+        {
+            ans.push_back({wt,{n1,n2}});
+            d.unionBySize(n1,n2);
+            minwt+=wt;
+        }
+    }
+    cout<<"minwt="<<minwt<<endl;
+    for(auto e:ans)
+    {
+        cout<<e.first<<"->"<<e.second.first<<" "<<e.second.second<<endl;
+    }
+    
+    return 0;
 }

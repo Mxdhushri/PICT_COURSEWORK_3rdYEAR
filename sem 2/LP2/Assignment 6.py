@@ -59,6 +59,8 @@ if diagnose_fever():
     print("You have fever")
 if diagnose_cold():
     print("You have cold")
+if diagnose_flu():
+    print("You have flu")
 if diagnose_strep_throat():
     print("You have strep throat")
 if diagnose_food_poisoning():
